@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Appointment Booking App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  </head>
+  <body class="bg-gray-100 min-h-screen font-sans">
+    <nav class="bg-white shadow-sm">
+      <div
+        class="container mx-auto px-4 py-3 flex flex-wrap justify-between items-center"
+      >
+        <a href="#" class="text-xl font-bold text-blue-600">AppointmentApp</a>
+        <div class="flex flex-wrap mt-2 sm:mt-0">
+          <button
+            onclick="showSection('home')"
+            class="px-3 py-2 text-gray-700 hover:text-blue-600"
+          >
+            Home
+          </button>
+          <button
+            onclick="showSection('profile')"
+            class="px-3 py-2 text-gray-700 hover:text-blue-600"
+          >
+            Profile
+          </button>
+          <button
+            onclick="showSection('signin')"
+            class="px-3 py-2 text-gray-700 hover:text-blue-600"
+          >
+            Sign In
+          </button>
+          <button
+            onclick="showSection('signup')"
+            class="px-3 py-2 text-gray-700 hover:text-blue-600"
+          >
+            Sign Up
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+      <section id="home" class="section">
+        <h1 class="text-3xl font-bold text-center mb-8">
+          Book Your Appointment
+        </h1>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            onclick="selectService('medical')"
+            class="bg-white rounded-lg shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow duration-300"
+          >
+            <div class="flex flex-col items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-12 w-12 text-blue-600 mb-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              <h2 class="text-xl font-semibold">Medical</h2>
+            </div>
+            <p class="text-center text-gray-600 mt-2">
+              Book your medical appointment
+            </p>
+          </div>
+          <div
+            onclick="selectService('salon')"
+            class="bg-white rounded-lg shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow duration-300"
+          >
+            <div class="flex flex-col items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-12 w-12 text-blue-600 mb-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"
+                />
+              </svg>
+              <h2 class="text-xl font-semibold">Salon</h2>
+            </div>
+            <p class="text-center text-gray-600 mt-2">
+              Book your salon appointment
+            </p>
+          </div>
+          <div
+            onclick="selectService('maintenance')"
+            class="bg-white rounded-lg shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow duration-300"
+          >
+            <div class="flex flex-col items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-12 w-12 text-blue-600 mb-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1V4z"
+                />
+              </svg>
+              <h2 class="text-xl font-semibold">Maintenance</h2>
+            </div>
+            <p class="text-center text-gray-600 mt-2">
+              Book your maintenance appointment
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" class="section hidden">
+        <h1 id="serviceTitle" class="text-3xl font-bold text-center mb-8"></h1>
+        <div
+          id="serviceList"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+        ></div>
+      </section>
+
+      <section id="doctors" class="section hidden">
+        <h1 id="doctorTitle" class="text-3xl font-bold text-center mb-8"></h1>
+        <div
+          id="doctorList"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+        ></div>
+      </section>
+
+      <section id="booking" class="section hidden">
+        <h1 id="bookingTitle" class="text-3xl font-bold text-center mb-8"></h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-4">Select Date</h2>
+            <input
+              type="text"
+              id="datePicker"
+              class="w-full p-2 border rounded"
+              placeholder="Select date"
+            />
+          </div>
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-4">Select Time</h2>
+            <div id="timeSlots" class="grid grid-cols-2 gap-4"></div>
+          </div>
+        </div>
+        <div class="mt-8 text-center">
+          <button
+            onclick="proceedToPayment()"
+            class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300"
+          >
+            Proceed to Payment
+          </button>
+        </div>
+      </section>
+
+      <section id="payment" class="section hidden">
+        <h1 class="text-3xl font-bold text-center mb-8">Payment</h1>
+        <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-8">
+          <form onsubmit="handlePayment(event)">
+            <div class="mb-4">
+              <label
+                for="card-number"
+                class="block text-gray-700 text-sm font-bold mb-2"
+                >Card Number</label
+              >
+              <input
+                type="text"
+                id="card-number"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                placeholder="1234 5678 9012 3456"
+                required
+              />
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label
+                  for="expiry-date"
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  >Expiry Date</label
+                >
+                <input
+                  type="text"
+                  id="expiry-date"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  placeholder="MM/YY"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="cvv"
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  >CVV</label
+                >
+                <input
+                  type="text"
+                  id="cvv"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  placeholder="123"
+                  required
+                />
+              </div>
+            </div>
+            <div class="mb-6">
+              <label
+                for="name-on-card"
+                class="block text-gray-700 text-sm font-bold mb-2"
+                >Name on Card</label
+              >
+              <input
+                type="text"
+                id="name-on-card"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                placeholder="John Doe"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300"
+            >
+              Pay Now
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <section id="profile" class="section hidden">
+        <h1 class="text-3xl font-bold text-center mb-8">User Profile</h1>
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+          <h2 class="text-xl font-semibold mb-4">Personal Information</h2>
+          <p><strong>Name:</strong> John Doe</p>
+          <p><strong>Email:</strong> john.doe@example.com</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-4">Upcoming Appointments</h2>
+          <div class="space-y-4">
+            <div class="p-4 border rounded-lg">
+              <p><strong>Dentist</strong></p>
+              <p>2023-06-15 at 10:00 AM</p>
+              <button
+                class="mt-2 px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition-colors duration-300"
+              >
+                Reschedule
+              </button>
+            </div>
+            <div class="p-4 border rounded-lg">
+              <p><strong>Haircut</strong></p>
+              <p>2023-06-20 at 02:00 PM</p>
+              <button
+                class="mt-2 px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition-colors duration-300"
+              >
+                Reschedule
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="signin" class="section hidden">
+        <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-8">
+          <h2 class="text-2xl font-bold text-center mb-6">Sign In</h2>
+          <form onsubmit="handleSignIn(event)">
+            <div class="mb-4">
+              <label
+                for="signin-email"
+                class="block text-gray-700 text-sm font-bold mb-2"
+                >Email</label
+              >
+              <input
+                type="email"
+                id="signin-email"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                required
+              />
+            </div>
+            <div class="mb-6">
+              <label
+                for="signin-password"
+                class="block text-gray-700 text-sm font-bold mb-2"
+                >Password</label
+              >
+              <input
+                type="password"
+                id="signin-password"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300"
+            >
+              Sign In
+            </button>
+          </form>
+          <div class="mt-4 text-center">
+            <a
+              href="#"
+              onclick="showSection('forgot-password')"
+              class="text-blue-600 hover:underline"
+              >Forgot Password?</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section id="signup" class="section hidden">
+        <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-8">
+          <h2 class="text-2xl font-bold text-center mb-6">Sign Up</h2>
+          <form onsubmit="handleSignUp(event)">
+            <div class="mb-4">
+              <label
+                for="signup-name"
+                class="block text-gray-700 text-sm font-bold mb-2"
+                >Full Name</label
+              >
+              <input
+                type="text"
+                id="signup-name"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label
+                for="signup-email"
+                class="block text-gray-700 text-sm font-bold mb-2"
+                >Email</label
+              >
+              <input
+                type="email"
+                id="signup-email"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                required
+              />
+            </div>
+            <div class="mb-6">
+              <label
+                for="signup-password"
+                class="block text-gray-700 text-sm font-bold mb-2"
+                >Password</label
+              >
+              <input
+                type="password"
+                id="signup-password"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300"
+            >
+              Sign Up
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <section id="forgot-password" class="section hidden">
+        <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-8">
+          <h2 class="text-2xl font-bold text-center mb-6">Forgot Password</h2>
+          <form onsubmit="handleForgotPassword(event)">
+            <div class="mb-6">
+              <label
+                for="forgot-email"
+                class="block text-gray-700 text-sm font-bold mb-2"
+                >Email</label
+              >
+              <input
+                type="email"
+                id="forgot-email"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300"
+            >
+              Reset Password
+            </button>
+          </form>
+          <div class="mt-4 text-center">
+            <a
+              href="#"
+              onclick="showSection('signin')"
+              class="text-blue-600 hover:underline"
+              >Back to Sign In</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const services = {
+        medical: [
+          { name: "General Practitioner", icon: "👨‍⚕️" },
+          { name: "Dentist", icon: "🦷" },
+          { name: "Pediatrician", icon: "👶" },
+        ],
+        salon: [
+          { name: "Haircut", icon: "💇" },
+          { name: "Manicure", icon: "💅" },
+          { name: "Facial", icon: "🧖" },
+        ],
+        maintenance: [
+          { name: "Plumbing", icon: "🚽" },
+          { name: "Electrical", icon: "💡" },
+          { name: "Carpentry", icon: "🔨" },
+        ],
+      };
+      const doctors = {
+        "General Practitioner": [
+          { name: "Dr.Ahmed Tariq", rate: 120 },
+          { name: "Dr.Mohamed Rasha", rate: 130 },
+          { name: "Dr.Ali Hany", rate: 110 },
+          { name: "Dr.Omar Shady", rate: 140 },
+          { name: "Dr.Karim Samir", rate: 120 },
+          { name: "Dr.Fawzaya Omar", rate: 135 },
+          { name: "Dr.Mona Ahmed", rate: 120 },
+          { name: "Dr.Fatma Ali", rate: 130 },
+          { name: "Dr.Sara Hany", rate: 110 },
+          { name: "Dr.Hala Shady", rate: 140 },
+        ],
+        Dentist: [
+          { name: "Dr.Ahmed Tariq", rate: 120 },
+          { name: "Dr.Mohamed Rasha", rate: 130 },
+          { name: "Dr.Ali Hany", rate: 110 },
+          { name: "Dr.Omar Shady", rate: 140 },
+          { name: "Dr.Karim Samir", rate: 120 },
+          { name: "Dr.Fawzaya Omar", rate: 135 },
+          { name: "Dr.Mona Ahmed", rate: 120 },
+          { name: "Dr.Fatma Ali", rate: 130 },
+          { name: "Dr.Sara Hany", rate: 110 },
+          { name: "Dr.Hala Shady", rate: 140 },
+        ],
+        Pediatrician: [
+          { name: "Dr.Ahmed Tariq", rate: 120 },
+          { name: "Dr.Mohamed Rasha", rate: 130 },
+          { name: "Dr.Ali Hany", rate: 110 },
+          { name: "Dr.Omar Shady", rate: 140 },
+          { name: "Dr.Karim Samir", rate: 120 },
+          { name: "Dr.Fawzaya Omar", rate: 135 },
+          { name: "Dr.Mona Ahmed", rate: 120 },
+          { name: "Dr.Fatma Ali", rate: 130 },
+          { name: "Dr.Sara Hany", rate: 110 },
+          { name: "Dr.Hala Shady", rate: 140 },
+        ],
+        Haircut: [
+          { name: "Mona Ahmed", rate: 120 },
+          { name: "Fatma Ali", rate: 130 },
+          { name: "Sara Hany", rate: 110 },
+          { name: "Hala Shady", rate: 140 },
+          { name: "Nesreen Samir", rate: 120 },
+          { name: "Yasmin Fathi", rate: 150 },
+          { name: "Dalia Tamer", rate: 130 },
+          { name: "Rania Hossam", rate: 100 },
+          { name: "Laila Khaled", rate: 160 },
+          { name: "Nadia Yasser", rate: 110 },
+        ],
+        Manicure: [
+          { name: "Mona Ahmed", rate: 120 },
+          { name: "Fatma Ali", rate: 130 },
+          { name: "Sara Hany", rate: 110 },
+          { name: "Hala Shady", rate: 140 },
+          { name: "Nesreen Samir", rate: 120 },
+          { name: "Yasmin Fathi", rate: 150 },
+          { name: "Dalia Tamer", rate: 130 },
+          { name: "Rania Hossam", rate: 100 },
+          { name: "Laila Khaled", rate: 160 },
+          { name: "Nadia Yasser", rate: 110 },
+        ],
+        Facial: [
+          { name: "Mona Ahmed", rate: 120 },
+          { name: "Fatma Ali", rate: 130 },
+          { name: "Sara Hany", rate: 110 },
+          { name: "Hala Shady", rate: 140 },
+          { name: "Nesreen Samir", rate: 120 },
+          { name: "Yasmin Fathi", rate: 150 },
+          { name: "Dalia Tamer", rate: 130 },
+          { name: "Rania Hossam", rate: 100 },
+          { name: "Laila Khaled", rate: 160 },
+          { name: "Nadia Yasser", rate: 110 },
+        ],
+        Plumbing: [
+          { name: "Ahmed Samy", rate: 90 },
+          { name: "Mohamed Yasser", rate: 95 },
+          { name: "Ali Fawzy", rate: 85 },
+          { name: "Omar Adel", rate: 100 },
+          { name: "Karim Hossam", rate: 90 },
+          { name: "Tamer Nour", rate: 105 },
+          { name: "Mahmoud Walid", rate: 95 },
+          { name: "Youssef Rami", rate: 80 },
+          { name: "Amr Hassan", rate: 110 },
+          { name: "Khaled Tamer", rate: 85 },
+        ],
+        Electrical: [
+          { name: "Ahmed Youssef", rate: 100 },
+          { name: "Mohamed Hany", rate: 105 },
+          { name: "Ali Ahmed", rate: 95 },
+          { name: "Omar Tamer", rate: 110 },
+          { name: "Karim Fady", rate: 100 },
+          { name: "Youssef Samir", rate: 115 },
+          { name: "Mahmoud Adel", rate: 105 },
+          { name: "Tamer Rami", rate: 90 },
+          { name: "Amr Khaled", rate: 120 },
+          { name: "Fady Hossam", rate: 95 },
+        ],
+        Carpentry: [
+          { name: "Ahmed Ali", rate: 95 },
+          { name: "Mohamed Hassan", rate: 100 },
+          { name: "Ali Mostafa", rate: 90 },
+          { name: "Tamer Khaled", rate: 105 },
+          { name: "Omar Sherif", rate: 95 },
+          { name: "Karim Fathy", rate: 110 },
+          { name: "Amr Magdy", rate: 100 },
+          { name: "Youssef Ahmed", rate: 85 },
+          { name: "Mahmoud Sami", rate: 115 },
+          { name: "Hassan Mohamed", rate: 90 },
+        ],
+      };
+
+      const timeSlots = [
+        "09:00 AM",
+        "10:00 AM",
+        "11:00 AM",
+        "01:00 PM",
+        "02:00 PM",
+        "03:00 PM",
+        "04:00 PM",
+      ];
+
+      let selectedService = "";
+      let selectedSubService = "";
+      let selectedDoctor = "";
+      let selectedDate = "";
+      let selectedTime = "";
+
+      function showSection(sectionId) {
+        document.querySelectorAll(".section").forEach((section) => {
+          section.classList.add("hidden");
+        });
+        document.getElementById(sectionId).classList.remove("hidden");
+      }
+
+      function selectService(service) {
+        selectedService = service;
+        const serviceTitle = document.getElementById("serviceTitle");
+        serviceTitle.textContent = `${
+          service.charAt(0).toUpperCase() + service.slice(1)
+        } Services`;
+
+        const serviceList = document.getElementById("serviceList");
+        serviceList.innerHTML = "";
+
+        services[service].forEach((item) => {
+          const div = document.createElement("div");
+          div.className =
+            "bg-white rounded-lg shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow duration-300";
+          div.innerHTML = `
+                    <div class="flex flex-col items-center">
+                        <span class="text-4xl mb-2">${item.icon}</span>
+                        <h2 class="text-xl font-semibold">${item.name}</h2>
+                    </div>
+                    <p class="text-center text-gray-600 mt-2">Book your ${item.name.toLowerCase()} appointment</p>
+                `;
+          div.onclick = () => selectSubService(item.name);
+          serviceList.appendChild(div);
+        });
+
+        showSection("services");
+      }
+
+      function selectSubService(subService) {
+        selectedSubService = subService;
+        const doctorTitle = document.getElementById("doctorTitle");
+        doctorTitle.textContent = `Select ${subService}`;
+
+        const doctorList = document.getElementById("doctorList");
+        doctorList.innerHTML = "";
+
+        doctors[subService].forEach((doctor) => {
+          const div = document.createElement("div");
+          div.className =
+            "bg-white rounded-lg shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow duration-300";
+          div.innerHTML = `
+                    <h2 class="text-xl font-semibold">${doctor.name}</h2>
+                    <p class="text-gray-600">Rate: $${doctor.rate}/hour</p>
+                `;
+          div.onclick = () => selectDoctor(doctor);
+          doctorList.appendChild(div);
+        });
+
+        showSection("doctors");
+      }
+
+      function selectDoctor(doctor) {
+        selectedDoctor = doctor;
+        const bookingTitle = document.getElementById("bookingTitle");
+        bookingTitle.textContent = `Book Appointment with ${doctor.name}`;
+
+        const timeSlotContainer = document.getElementById("timeSlots");
+        timeSlotContainer.innerHTML = "";
+
+        timeSlots.forEach((time) => {
+          const button = document.createElement("button");
+          button.className =
+            "px-4 py-2 border rounded text-gray-700 hover:bg-blue-600 hover:text-white transition-colors duration-300";
+          button.textContent = time;
+          button.onclick = () => selectTime(time);
+          timeSlotContainer.appendChild(button);
+        });
+
+        showSection("booking");
+      }
+
+      function selectTime(time) {
+        selectedTime = time;
+        document.querySelectorAll("#timeSlots button").forEach((button) => {
+          button.classList.remove("bg-blue-600", "text-white");
+          if (button.textContent === time) {
+            button.classList.add("bg-blue-600", "text-white");
+          }
+        });
+      }
+
+      function proceedToPayment() {
+        if (selectedDate && selectedTime) {
+          showSection("payment");
+        } else {
+          alert("Please select both date and time");
+        }
+      }
+
+      function handlePayment(event) {
+        event.preventDefault();
+        const cardNumber = document.getElementById("card-number").value;
+        const expiryDate = document.getElementById("expiry-date").value;
+        const cvv = document.getElementById("cvv").value;
+        const nameOnCard = document.getElementById("name-on-card").value;
+
+        console.log("Payment attempt:", {
+          cardNumber,
+          expiryDate,
+          cvv,
+          nameOnCard,
+        });
+        alert("Payment successful! Your appointment has been booked.");
+        showSection("home");
+      }
+
+      function handleSignIn(event) {
+        event.preventDefault();
+        const email = document.getElementById("signin-email").value;
+        const password = document.getElementById("signin-password").value;
+        console.log("Sign in attempt:", email, password);
+        alert("Sign in successful!");
+        showSection("home");
+      }
+
+      function handleSignUp(event) {
+        event.preventDefault();
+        const name = document.getElementById("signup-name").value;
+        const email = document.getElementById("signup-email").value;
+        const password = document.getElementById("signup-password").value;
+        console.log("Sign up attempt:", name, email, password);
+        alert("Sign up successful!");
+        showSection("home");
+      }
+
+      function handleForgotPassword(event) {
+        event.preventDefault();
+        const email = document.getElementById("forgot-email").value;
+        console.log("Password reset requested for:", email);
+        alert("Password reset instructions sent to your email!");
+        showSection("signin");
+      }
+      flatpickr("#datePicker", {
+        minDate: "today",
+        dateFormat: "Y-m-d",
+        onChange: function (selectedDates, dateStr) {
+          selectedDate = dateStr;
+        },
+      });
+
+      showSection("home");
+    </script>
+  </body>
+</html>
